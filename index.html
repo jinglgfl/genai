@@ -1,0 +1,1784 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gen AI Tool Quality Assurance | LGfL</title>
+<meta name="description" content="Check a generative AI tool against the DfE Generative AI Product Safety Standards, log the risks, record your school's sign-off and print the completed form.">
+<script>
+/* =====================================================================
+   SETTINGS: edit these, then upload this one file.
+   ===================================================================== */
+window.CHECKER_SETTINGS = {
+  // Google Analytics 4 Measurement ID, e.g. 'G-AB12CD34EF'.
+  // Leave empty to switch off analytics and the cookie banner.
+  gaMeasurementId: '',
+  // Privacy notice linked from the cookie banner and footer. Leave empty to hide the link.
+  privacyNoticeUrl: 'https://viewonline.lgfl.net/hubfs/LGfL%20Privacy%20Notice.pdf',
+  // Yellow notice in the footer. Leave empty to hide it.
+  pilotNotice: '',
+  // Email shown after the notice. Leave empty to hide it.
+  feedbackEmail: '',
+};
+
+/* =====================================================================
+   FORM CONTENT: copied word for word from "Gen AI Assurance template.docx".
+   - Never change or reuse a standard's id once the page is live. Saved
+     files match answers to standards by id.
+   - When you change the content, bump the version and date.
+   ===================================================================== */
+window.CHECKER_FORM = {
+  version: '1.0',
+  date: '2026-10-09',
+  title: 'Generative AI Tool Quality Assurance',
+  intro: [
+    'Under ',
+    { text: 'Keeping Children Safe in Education (KCSIE)', url: 'https://www.gov.uk/government/publications/keeping-children-safe-in-education--2' },
+    ', schools have a duty to protect learners from online harms. Generative AI tools introduce distinctive risks in areas such as data protection, cyber security, cognitive development, mental health, emotional dependency and safeguarding. To assist school leaders, LGfL has developed this quality assurance proforma. This template is mapped against the ',
+    { text: 'Department for Education (DfE) Generative AI Product Safety Standards', url: 'https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards' },
+    ' to help schools evaluate and evidence the safety of AI tools before they are deployed.',
+  ],
+  tagline: 'By completing this form, schools establish a clear audit trail of their decisions.',
+  // Reference only: each standard links to the matching section of this page.
+  dfeUrl: 'https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards',
+
+  // title is the heading in the form; nav is the short name in the side menu.
+  sections: {
+    profile: { title: '1. Tool Profile and Intended Educational Use', nav: '1. Tool Profile' },
+    checklist: { title: '2. DfE Product Safety Standards - Quality Assurance Checklist', nav: '2. Standards Checklist' },
+    risks: { title: '3. Tool Risk Assessment & Mitigation Log', nav: '3. Risk Assessment' },
+    signoff: { title: '4. Approval Sign-Off and Evidence Log', nav: '4. Approval Sign-Off' },
+  },
+
+  labels: {
+    tool: 'Tool / Product Name',
+    assessedBy: 'Assessed By (Name & Role)',
+    date: 'Date of Assessment',
+    demographic: 'Target Demographic & SEND',
+    useCases: 'DfE Educational Use Cases',
+    useCasesHint: '(Indicate all that apply)',
+    otherSpecify: 'Please specify',
+    standardArea: 'DfE Standard Area',
+    supplier: 'Supplier Evidence Reviewed',
+    school: 'School Verification & Local Controls Required',
+    status: 'Status',
+    hazard: 'Identified Risk / Hazard',
+    inherent: 'Inherent Risk',
+    mitigation: 'Localized Mitigation Measures (Technical, Operational, and Policy)',
+    residual: 'Residual Risk',
+    owner: 'Action Owner',
+    likelihood: 'Likelihood of Harm',
+    // Not in the template: the matrix's column headings have no name of their own.
+    impact: 'Impact',
+    reviewed: 'Reviewed and Decision Agreed',
+    approver: 'Approver Name',
+    signature: 'Signature',
+    approvalDate: 'Date',
+    decision: 'Decision',
+    whoCanUse: 'If approved, who can use?',
+    reviewDate: 'Next review Date?',
+  },
+
+  // 1. Tool profile
+  demographicHint: 'Pupils and/or staff, specify target age of learners, SEND status suitability, and any age restrictions',
+  useCases: [
+    { id: 'content', label: 'Content creation and delivery (lesson plans, presentations, resources)' },
+    { id: 'personalised', label: 'Personalised learning and accessibility (custom pathways, adaptive content)' },
+    { id: 'assessment', label: 'Assessment and analytics (marking aid, feedback, performance analytics)' },
+    { id: 'assistant', label: 'Digital assistant (conversational agents, tutors, chatbots)' },
+    { id: 'research', label: 'Research and writing aid (summaries, citation, and ideas support)' },
+    { id: 'engagement', label: 'Learner engagement and interaction (collaborative projects, active learning)' },
+    { id: 'admin', label: 'Administrative and management (report generation, policy compliance tools)' },
+    { id: 'other', label: 'Other', other: true },
+  ],
+
+  // 2. Checklist. dfe is the section of the DfE page to link to.
+  checklistIntro: "Review supplier documentation carefully (e.g., terms of service, privacy policies, safety SLAs) and record the school's local actions to satisfy each standard. Be aware of using any free tools, and of overexaggerated claims or lack of independent verification/review of any tools.",
+  pupilsOnlyLabel: 'IF PUPILS USING PRODUCT:',
+  areas: [
+    {
+      id: 'A', title: 'A. Safe Systems: Filtering & Monitoring (Learner-Facing Tools)', nav: 'A. Safe Systems',
+      standards: [
+        {
+          id: 'filtering', num: 1, title: 'Core & Multimodal Filtering', dfe: 'filtering',
+          criteria: [
+            'Product reliably filters out illegal, harmful, or inappropriate content.',
+            'Content moderation works across multimodal formats (text, image, audio, codes, languages).',
+            'Moderation is contextually aware to prevent simple bypasses.',
+          ],
+          supplier: 'Confirm if terms or SLA guarantees built-in, context-sensitive filtering. Any limitations?',
+          school: 'How will you integrate with your school filtering platform (e.g. LGfL’s SchoolProtect and HomeProtect)',
+        },
+        {
+          id: 'byod', num: 2, title: 'BYOD & Device Compliance', dfe: 'filtering',
+          criteria: [
+            'Moderation is fully maintained across all school accounts regardless of the device used, including school-issued and BYOD.',
+          ],
+          supplier: 'Verify that the supplier ensures school accounts apply security policies at the user level, not just the network/IP level.',
+          school: 'Test the tool on the school network using non-school devices to verify filtering is maintained, and school owned devices offsite.',
+        },
+        {
+          id: 'logging', num: 3, title: 'Activity Logging & Alerts', dfe: 'monitoring-and-reporting', pupilsOnly: true,
+          criteria: [
+            'System maintains robust activity logging (of prompts and responses).',
+            'Automatically alerts DSL when harmful/inappropriate content is requested.',
+            'Displays real-time age-appropriate alerts to users when blocked.',
+          ],
+          supplier: 'Confirm that the supplier provides teacher/DSL dashboard with real-time logging, usage metrics, and automated alert flags.',
+          school: 'Map local alerts to internal systems (e.g., LGfL Senso monitoring) to track patterns of worrying searches.',
+        },
+        {
+          id: 'dsl', num: 4, title: 'Direct DSL Integration', dfe: 'monitoring-and-reporting', pupilsOnly: true,
+          criteria: [
+            'Product requires input of DSL contact details during setup.',
+            'Sends high-risk alerts to the DSL within an agreed timescale.',
+          ],
+          supplier: 'Check if the software has dedicated input fields for DSL details and triggers direct alerts (email/SMS) for high-risk concerns.',
+          school: "Confirm that school DSL's current contact info is successfully configured and high-risk notifications are tested.",
+        },
+      ],
+    },
+    {
+      id: 'B', title: 'B. Security, Privacy & Governance (All Tools)', nav: 'B. Security, Privacy & Governance',
+      standards: [
+        {
+          id: 'security', num: 5, title: 'Security, Patching & MFA', dfe: 'security',
+          criteria: [
+            'Protects against jailbreaking and unauthorised modification of core functionalities.',
+            'Regular, automated software patches.',
+            'Supports MFA for accounts handling personal/sensitive data.',
+            'Role-based permission controls.',
+          ],
+          supplier: 'Confirm supplier holds cybersecurity certifications, applies prompt patches, and supports MFA.',
+          school: 'Ensure administrator-defined permissions restrict student access to administrative or unmoderated models.',
+        },
+        {
+          id: 'privacy', num: 6, title: 'Privacy & DPIA Compliance', dfe: 'privacy-and-data-protection',
+          criteria: [
+            'Clear, age-appropriate privacy notice.',
+            'Supplier conducts and shares their DPIA.',
+            'Explicit commitment: student/personal data is NOT used for commercial purposes or model training/fine-tuning.',
+          ],
+          supplier: 'Ensure privacy policy explicitly prohibits harvesting pupil data for developer model training. Ensure UK-GDPR compliance.',
+          school: "Complete and attach the school's Data Protection Impact Assessment (DPIA) prior to deployment.",
+        },
+        {
+          id: 'ip', num: 7, title: 'Intellectual Property & Copyright', dfe: 'intellectual-property',
+          criteria: [
+            'System does not collect, store, or share IP created by pupils or teachers for commercial training or fine-tuning without explicit consent.',
+          ],
+          supplier: 'Check terms to ensure pupil essays, art, and teacher resources remain the property of the school/owner.',
+          school: 'Inform staff and pupils of copyright policies; ensure parental consent is secured for students under 18 prior to use.',
+        },
+        {
+          id: 'governance', num: 8, title: 'Governance & Complaints', dfe: 'governance',
+          criteria: [
+            'Product carries an independent risk assessment.',
+            'Clear and accessible complaints mechanism to escalate safety/data issues quickly.',
+          ],
+          supplier: 'Verify that the developer provides a clear support channel, reporting procedure, and a formal safety escalation protocol.',
+          school: "Incorporate the tool's usage into the school's wider complaints and online safety policies, ensuring clear pathways for staff.",
+        },
+      ],
+    },
+    {
+      id: 'C', title: 'C. Learner Wellbeing & Development', nav: 'C. Learner Wellbeing & Development',
+      standards: [
+        {
+          id: 'cognitive', num: 9, title: 'Cognitive Development & Offloading', dfe: 'cognitive-development', pupilsOnly: true,
+          criteria: [
+            'Product avoids providing complete answers or final solutions by default.',
+            "Employs 'progressive disclosure' (hints/scaffolds) and prompts user first.",
+            'Tracks and reports cognitive offloading (detecting copy-pasting, button clicks, autocomplete).',
+          ],
+          supplier: 'Verify that the pedagogical model uses scaffolded guidance. Which pedagogical experts have been involved in developing the product?',
+          school: 'Deliver student training on the dangers of cognitive deskilling.',
+        },
+        {
+          id: 'emotional', num: 10, title: 'Emotional & Social Development', dfe: 'emotional-and-social-development', pupilsOnly: true,
+          criteria: [
+            "No anthropomorphising: system avoids I-statements ('I think') and human avatars/names (unless task-bounded roleplay).",
+            'Reminds users that AI cannot replace human relationships.',
+            'Enforces default time limits and hard session limits.',
+          ],
+          supplier: "Confirm product uses function-based phrasing (e.g. 'this system generates...') and has hard session time boundaries built in.",
+          school: 'Set usage limits for pupils and promote offline activities as well as those online.',
+        },
+        {
+          id: 'mental-health', num: 11, title: 'Mental Health Support & Distress Detection', dfe: 'mental-health', pupilsOnly: true,
+          criteria: [
+            'Detects distress cues (self-harm, crisis, negative emotional patterns, night spikes, isolation phrases).',
+            'Follows tiered response (soft signposting, DSL alerting) using safe, non-validating and non-pathologising language.',
+          ],
+          supplier: 'Ensure the supplier maintains and publishes a mental health crisis protocol and employs clinical child experts in design.',
+          school: 'Ensure school reporting of mental health alerts is effective, and train staff on AI safety as well as signs and indicators of mental ill-health.',
+        },
+        {
+          id: 'manipulation', num: 12, title: 'Anti-Manipulation & Exploitation', dfe: 'manipulation', pupilsOnly: true,
+          criteria: [
+            'Avoids persuasive tactics (sycophancy, flattery, peer pressure, guilt, fear, real-world reward promises).',
+            'Does not exploit users for engagement loops or commercial upsells (dark patterns).',
+          ],
+          supplier: 'Ensure terms of service and software interface are free of commercial advertisements, in-app purchases, or manipulative layout features.',
+          school: 'Observe student-product interactions during a trial phase to monitor for sycophantic behavior or engagement traps.',
+        },
+      ],
+    },
+  ],
+
+  // 3. Risk assessment
+  riskIntro: 'Identify and list any identified risks associated with the implementation of this tool in your school. Calculate the inherent risk using the LGfL Safeguarding Risk Matrix (below), document specific local controls, and determine the remaining residual risk. Two examples have been provided to guide your assessment.',
+  riskMatrix: {
+    name: 'LGfL Safeguarding Risk Matrix',
+    likelihood: ['Rare', 'Unlikely', 'Possible', 'Likely', 'Almost Certain'], // scores 1 to 5
+    impact: ['Negligible', 'Minor', 'Moderate', 'Major', 'Critical'], // scores 1 to 5
+    // One row per likelihood (Rare first), one column per impact (Negligible first).
+    bands: [
+      ['Low', 'Low', 'Low', 'Medium', 'Medium'],
+      ['Low', 'Low', 'Medium', 'Medium', 'High'],
+      ['Low', 'Medium', 'Medium', 'High', 'High'],
+      ['Medium', 'Medium', 'High', 'Critical', 'Critical'],
+      ['Medium', 'High', 'High', 'Critical', 'Critical'],
+    ],
+  },
+  riskExamples: [
+    {
+      title: 'Example 1: Excessive Cognitive Offloading',
+      hazard: 'Pupils copy-pasting complete assignments or using auto-complete features to bypass independent writing, causing cognitive deskilling.',
+      inherent: 'Medium (Score: 9)',
+      mitigation: [
+        'Configure tool settings to restrict output lengths.',
+        'Deliver pupil briefing on cognitive offloading.',
+        'Teachers cross-reference work via regular offline verbal checks.',
+        'Enable teacher dashboard tracking of copy-paste alerts.',
+      ],
+      residual: 'Low (Score: 3)',
+      owner: 'Subject Teacher / IT Lead',
+    },
+    {
+      title: 'Example 2: Input of Personally Identifiable Information (PII)',
+      hazard: 'Teachers or pupils entering sensitive personal data (e.g., student names, SEND records) into prompts, violating UK GDPR.',
+      inherent: 'High (Score: 12)',
+      mitigation: [
+        'Execute staff CPD emphasising prohibition of entering PII.',
+        'Set administrative rules blocking file uploads containing PII.',
+        'Ensure tool terms explicitly block PII training.',
+      ],
+      residual: 'Low (Score: 4)',
+      owner: 'DSL / Data Protection Officer',
+    },
+  ],
+  riskPlaceholders: {
+    hazard: 'Identify local risk, e.g. student trying to bypass filtering/jailbreak tool',
+    mitigation: 'Describe technical controls\nDescribe operational controls, e.g., supervision, staff CPD, AI literacy\nDescribe policy controls',
+    owner: 'Role',
+  },
+
+  // 4. Sign-off
+  signOffIntro: 'Maintain this document as evidence of your decision-making process.',
+  reviewers: [
+    { id: 'dpo', label: 'Data Protection Officer' },
+    { id: 'dsl', label: 'Safeguarding Lead' },
+    { id: 'tech', label: 'Technical Lead' },
+  ],
+  disagreeNote: 'If colleagues do not agree, please discuss further and amend the risk assessment and mitigation log (section 3) until all parties can agree.',
+  registers: [
+    { id: 'iar', label: 'Information Asset Register', tick: 'Updated' },
+    { id: 'risk-register', label: 'Risk Register', tick: 'Updated (if required)' },
+    { id: 'ropa', label: 'Record of Processing Activities', tick: 'Updated, or no update required' },
+  ],
+  decisions: [
+    { id: 'approved', label: 'Approved for use' },
+    { id: 'not_approved', label: 'Not Approved for use' },
+  ],
+};
+</script>
+<style>
+/* Poppins, embedded so nothing loads from Google Fonts. */
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap;
+  src: local('Poppins'), local('Poppins-Regular'),
+    url(data:font/woff2;base64,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) format('woff2'); }
+@font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap;
+  src: local('Poppins Bold'), local('Poppins-Bold'),
+    url(data:font/woff2;base64,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) format('woff2'); }
+
+:root {
+  --bar: #000000; --bar-ink: #F9F9F9; --bar-quiet: #BDBDBD;
+  --ink: #1C1C1C; --head: #292929; --quiet: #6B6B6B;
+  --rule: #DADADA; --line: #555555; --field: #8A8A8A;
+  --band: #F2F2F2; --hero: #343030; --page: #FFFFFF;
+  --red: #E21F26; --yellow: #FFFF00;
+  --low: #D9EFD5; --medium: #FFF0B3; --high: #FFD3A8; --critical: #F5B3B5;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font-family: Poppins, Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.55; }
+body.has-banner { padding-bottom: 150px; }
+a { color: var(--ink); }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 12px; top: -60px; background: #fff; color: var(--ink); padding: 8px 14px; z-index: 100; }
+.skip:focus { top: 12px; }
+
+/* Top bar */
+.bar { position: sticky; top: 0; z-index: 20; background: var(--bar); color: var(--bar-ink); display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 28px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 14px; color: inherit; text-decoration: none; font-size: 21px; white-space: nowrap; }
+.brand img { display: block; height: 36px; width: auto; }
+.bar-actions { display: flex; align-items: center; gap: 12px; }
+.status { font-size: 13px; color: var(--bar-quiet); text-align: right; }
+.btn-bar { background: transparent; color: var(--bar-ink); border: 1px solid var(--bar-ink); border-radius: 0; font: inherit; font-size: 13.5px; padding: 6px 16px; cursor: pointer; min-height: 36px; }
+.btn-bar:hover { background: var(--bar-ink); color: var(--bar); }
+.btn-bar.attention { background: var(--bar-ink); color: var(--bar); font-weight: 700; }
+.btn-bar.attention:hover { background: #D6D6D6; }
+.toolline { padding: 12px 28px; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--quiet); }
+.toolline b { color: var(--ink); font-weight: 700; }
+
+/* Start page */
+.hero { background: var(--hero); color: #fff; text-align: center; padding: 64px 24px 56px; }
+.hero h1 { font-size: 48px; font-weight: 700; line-height: 1.15; margin: 0 auto 14px; max-width: 900px; text-shadow: 0 0 22px rgba(255, 255, 255, .35); }
+.hero h1:focus { outline: none; }
+.hero p { font-size: 19px; max-width: 720px; margin: 0 auto 30px; }
+.hero :focus-visible { outline-color: #fff; }
+.hero-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; max-width: 780px; margin: 0 auto; }
+.btn-hero { background: transparent; color: #fff; border: 1px solid #fff; border-radius: 0; font: inherit; font-size: 15px; padding: 12px 16px; min-height: 52px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.btn-hero:hover { background: #fff; color: var(--bar); }
+.btn-hero.primary { background: #fff; color: var(--bar); font-weight: 700; }
+.btn-hero.primary:hover { background: var(--band); }
+.btn-note { display: block; font-size: 12.5px; font-weight: 400; opacity: .85; }
+.intro { max-width: 1000px; margin: 0 auto; padding: 44px 28px 8px; }
+.intro h2 { font-size: 32px; font-weight: 700; color: var(--head); margin: 0 0 18px; line-height: 1.2; }
+.lead { font-size: 17px; margin: 0 0 40px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 0 0 40px; }
+.steps h3 { font-size: 20px; font-weight: 700; color: var(--head); margin: 0 0 6px; }
+.steps p { margin: 0; }
+.browser-note { background: var(--band); border-left: 4px solid var(--ink); padding: 12px 16px; margin: 0 0 20px; }
+.disclaimer { font-size: 14px; color: var(--quiet); border-left: 3px solid var(--rule); padding-left: 14px; margin: 28px 0 0; }
+
+/* Form layout */
+.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; padding: 28px; }
+.content { min-width: 0; }
+nav.sections { align-self: start; position: sticky; top: 88px; }
+.overall { margin: 0 0 14px; font-size: 13.5px; }
+.progress { height: 6px; background: var(--band); margin-top: 6px; }
+.progress span { display: block; height: 100%; background: var(--red); }
+nav.sections ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+nav.sections a { display: flex; justify-content: space-between; gap: 10px; border: 1px solid var(--line); padding: 8px 11px; font-size: 13.5px; line-height: 1.35; color: var(--ink); text-decoration: none; }
+nav.sections a:hover { background: var(--band); }
+nav.sections a[aria-current="page"] { background: var(--bar); color: var(--bar-ink); border-color: var(--bar); }
+nav.sections .count { color: var(--quiet); white-space: nowrap; }
+nav.sections a[aria-current="page"] .count { color: #CFCFCF; }
+nav.sections li.group { font-size: 13.5px; font-weight: 700; padding: 4px 0 0; margin-bottom: -3px; }
+nav.sections li.sub-item a { margin-left: 14px; }
+.mobile-nav { display: none; margin: 0 0 20px; }
+.kicker { font-size: 14px; font-weight: 700; color: var(--quiet); margin: 0 0 6px; }
+.section-title { font-size: 34px; font-weight: 700; color: var(--head); margin: 0; line-height: 1.2; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 16px; }
+.section-title:focus { outline: none; }
+.section-title small { font-size: 14px; font-weight: 400; color: var(--quiet); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 20px 0 24px; }
+.flash { background: var(--band); border-left: 4px solid var(--ink); padding: 12px 16px; margin: 0 0 22px; }
+h2.sub { font-size: 24px; font-weight: 700; color: var(--head); margin: 36px 0 12px; line-height: 1.25; }
+.section-intro { margin: -8px 0 26px; font-size: 15px; }
+.section-intro p { margin: 0 0 10px; }
+.na-offer { background: var(--band); padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.ref { margin: 0 0 16px; font-size: 13.5px; }
+
+/* Fields */
+.field { margin: 0 0 16px; min-width: 0; }
+.field-label { display: block; font-size: 13.5px; font-weight: 700; margin: 0 0 5px; padding: 0; }
+.optional { font-weight: 400; color: var(--quiet); }
+.hint { font-size: 13px; color: var(--quiet); margin: -2px 0 6px; }
+.error { color: #B3141A; font-weight: 700; font-size: 14px; margin: 6px 0 0; }
+input[type="text"], input[type="date"], textarea, select {
+  font: inherit; font-size: 15px; color: var(--ink); background: #fff; width: 100%;
+  border: 1px solid var(--field); border-radius: 0; padding: 9px 11px; min-height: 44px; }
+input[aria-invalid="true"] { border: 2px solid #B3141A; }
+textarea { min-height: 84px; resize: vertical; line-height: 1.5; }
+::placeholder { color: #8C8C8C; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+.details-grid .wide { grid-column: 1 / -1; }
+.checks { display: flex; flex-direction: column; gap: 8px; }
+.check { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--line); padding: 10px 12px; cursor: pointer; font-size: 15px; line-height: 1.4; }
+.check:hover { background: var(--band); }
+.check input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--bar); cursor: pointer; }
+.check .quiet { color: var(--quiet); }
+.other-field { margin: 10px 0 0 32px; }
+
+/* Standards */
+.q { padding: 0 0 26px; margin: 0 0 30px; border-bottom: 1px solid var(--rule); scroll-margin-top: 90px; }
+.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 6px; }
+.badge { font-size: 11.5px; font-weight: 700; padding: 1px 8px; background: var(--bar); color: var(--bar-ink); }
+.badge.warn { background: var(--yellow); color: var(--ink); }
+.q-text { font-size: 22px; font-weight: 700; color: var(--head); line-height: 1.35; margin: 0 0 8px; }
+.criteria { margin: 0 0 8px; padding-left: 22px; }
+.criteria li { margin: 0 0 3px; }
+.qfields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+.resp { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.resp.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.opt { position: relative; display: block; }
+.opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.opt span { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; height: 100%; padding: 8px 6px; border: 1px solid var(--line); text-align: center; font-size: 14px; line-height: 1.25; cursor: pointer; background: #fff; }
+.opt span:hover { background: var(--band); }
+.opt input:checked + span { background: var(--bar); color: var(--bar-ink); border-color: var(--bar); font-weight: 700; }
+.opt input:checked + span::before { content: "\2713"; }
+.opt input:focus-visible + span { outline: 3px solid var(--red); outline-offset: 2px; }
+.clear-row { min-height: 30px; display: flex; justify-content: flex-end; align-items: center; margin: 4px 0 0; }
+details.panel { background: var(--band); margin: 0 0 8px; }
+details.panel summary { cursor: pointer; padding: 10px 14px; font-size: 14.5px; }
+.panel-body { padding: 0 14px 14px; font-size: 14.5px; }
+
+/* Risk matrix and log */
+.table-wrap { overflow-x: auto; margin: 0 0 18px; }
+table.matrix { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 13.5px; }
+table.matrix caption { text-align: left; font-weight: 700; margin: 0 0 6px; }
+table.matrix th, table.matrix td { border: 2px solid #fff; padding: 8px 6px; text-align: center; }
+table.matrix thead th { background: var(--bar); color: var(--bar-ink); font-weight: 700; }
+table.matrix tbody th { background: var(--band); text-align: left; font-weight: 700; white-space: nowrap; }
+.band-low { background: var(--low); }
+.band-medium { background: var(--medium); }
+.band-high { background: var(--high); }
+.band-critical { background: var(--critical); }
+.example { background: #fff; border: 1px solid var(--rule); padding: 12px 14px; margin: 0 0 10px; }
+.example h3 { font-size: 16px; margin: 0 0 4px; }
+.example p { margin: 0; }
+.example dl { display: grid; grid-template-columns: minmax(120px, 210px) minmax(0, 1fr); gap: 6px 14px; margin: 10px 0 0; }
+.example dt { font-weight: 700; }
+.example dd { margin: 0; }
+.example dd ul { margin: 0; padding-left: 18px; }
+.risk { border: 1px solid var(--line); padding: 16px 18px 4px; margin: 0 0 18px; }
+.risk-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 10px; }
+.risk-head h3 { font-size: 20px; font-weight: 700; color: var(--head); margin: 0; }
+.rating-picker { margin: 0 0 16px; }
+.rating-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(170px, auto); column-gap: 16px; align-items: end; }
+.rating-row .field { margin: 0; }
+.rating-label { font-size: 13px; color: var(--quiet); display: block; margin: 0 0 4px; }
+.rating { display: flex; align-items: center; min-height: 44px; padding: 8px 12px; font-weight: 700; }
+.rating.none { font-weight: 400; color: var(--quiet); border: 1px dashed var(--field); }
+.add-row { margin: 0 0 8px; }
+
+/* Sign-off */
+.approval { border: 1px solid var(--line); padding: 18px 18px 4px; margin: 24px 0 0; }
+.sig-note { margin: 0; min-height: 44px; display: flex; align-items: center; color: var(--quiet); font-size: 14.5px; border-bottom: 1px solid var(--field); }
+.plain-list { list-style: none; margin: 0; padding: 0; }
+.plain-list li { padding: 6px 0; border-bottom: 1px solid var(--rule); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-size: 14.5px; line-height: 1.3; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 0; padding: 9px 22px; min-height: 44px; cursor: pointer; text-decoration: none; text-align: center; }
+.btn:hover { background: var(--band); }
+.btn.primary { background: var(--bar); color: var(--bar-ink); border-color: var(--bar); }
+.btn.primary:hover { background: #333; }
+.btn.small { font-size: 13px; padding: 5px 14px; min-height: 34px; }
+.btn-link { background: none; border: 0; padding: 0; font: inherit; font-size: 13.5px; color: var(--ink); text-decoration: underline; cursor: pointer; }
+.nextback { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.keep-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Footer */
+.site-footer { margin-top: 48px; border-top: 1px solid var(--rule); padding: 18px 28px 26px; }
+.pilot { max-width: 1240px; margin: 0 auto 12px; font-size: 14px; }
+.pilot mark { background: var(--yellow); color: var(--ink); font-weight: 700; padding: 0 3px; margin-right: 8px; }
+.foot-meta { text-align: center; font-size: 12.5px; color: var(--quiet); margin: 0; }
+.foot-meta a, .foot-meta .btn-link { color: var(--quiet); font-size: 12.5px; }
+
+/* Cookie banner */
+.cookie { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--bar); color: var(--bar-ink); padding: 16px 28px; display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; box-shadow: 0 -2px 14px rgba(0, 0, 0, .25); }
+.cookie p { margin: 0; font-size: 14px; max-width: 780px; }
+.cookie a { color: var(--bar-ink); }
+.cookie-btns { display: flex; gap: 10px; }
+.cookie .btn-bar { min-width: 120px; font-size: 14.5px; padding: 9px 16px; }
+
+/* Dialog */
+dialog { border: 1px solid var(--ink); border-radius: 0; padding: 24px 26px; max-width: 520px; width: calc(100% - 32px); color: var(--ink); font: inherit; }
+dialog::backdrop { background: rgba(0, 0, 0, .55); }
+dialog h2 { font-size: 22px; color: var(--head); margin: 0 0 10px; line-height: 1.25; }
+dialog p { margin: 0; white-space: pre-line; }
+.dlg-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+
+/* Printed form: hidden on screen */
+#report { display: none; }
+
+@media (max-width: 900px) {
+  .steps { grid-template-columns: 1fr; gap: 18px; }
+  .qfields { grid-template-columns: minmax(0, 1fr); }
+  .rating-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .rating-row .rating-result { grid-column: 1 / -1; margin-top: 10px; }
+}
+@media (max-width: 767px) {
+  .bar { padding: 10px 16px; min-height: 56px; }
+  .brand { font-size: 16px; gap: 10px; }
+  .brand img { height: 28px; }
+  .status { display: none; }
+  .btn-bar { padding: 5px 10px; }
+  .toolline { padding: 10px 16px; }
+  .hero { padding: 40px 16px 36px; }
+  .hero h1 { font-size: 32px; }
+  .hero p { font-size: 16px; }
+  .intro { padding: 32px 16px 8px; }
+  .intro h2 { font-size: 26px; }
+  .layout { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 0; }
+  nav.sections { display: none; }
+  .mobile-nav { display: block; }
+  .section-title { font-size: 26px; }
+  .details-grid { grid-template-columns: minmax(0, 1fr); }
+  .resp { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .resp.two { grid-template-columns: minmax(0, 1fr); }
+  .q-text { font-size: 19px; }
+  .rating-row { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+  .rating-row .rating-result { margin-top: 0; }
+  .example dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .example dd { margin-bottom: 6px; }
+  .other-field { margin-left: 0; }
+  .site-footer { padding: 18px 16px 24px; }
+  .cookie { padding: 14px 16px; }
+  .cookie-btns { width: 100%; }
+  .cookie .btn-bar { flex: 1 1 0; }
+  body.has-banner { padding-bottom: 230px; }
+}
+@media (max-width: 420px) {
+  .brand-title { white-space: normal; line-height: 1.2; }
+}
+
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+  body { font-size: 9.5pt; color: #000; background: #fff; padding: 0 !important; }
+  body > *:not(#report) { display: none !important; }
+  #report { display: block; }
+  #report h1 { font-size: 20pt; margin: 0; line-height: 1.2; }
+  #report h2 { font-size: 14pt; margin: 14pt 0 6pt; }
+  #report h3 { font-size: 11.5pt; margin: 12pt 0 5pt; }
+  #report p { margin: 0 0 5pt; }
+  .r-head { display: flex; align-items: center; gap: 14pt; border-bottom: 1.5pt solid #000; padding-bottom: 10pt; margin-bottom: 10pt; }
+  .r-logo { height: 34pt; width: auto; }
+  .r-kicker { margin: 0 !important; font-size: 10pt; color: #444; }
+  .r-intro { font-size: 8.5pt; color: #333; }
+  .r-details { border-collapse: collapse; width: 100%; margin-bottom: 6pt; }
+  .r-details th { text-align: left; font-weight: 700; width: 30%; padding: 4pt 8pt 4pt 0; vertical-align: top; border-bottom: .5pt solid #bbb; }
+  .r-details td { padding: 4pt 0; border-bottom: .5pt solid #bbb; vertical-align: top; }
+  .r-details td div { margin: 0 0 1pt; }
+  table.r-grid { border-collapse: collapse; width: 100%; font-size: 8.5pt; margin: 0 0 8pt; }
+  .r-grid th, .r-grid td { border: .5pt solid #777; padding: 4pt 5pt; vertical-align: top; text-align: left; }
+  .r-grid thead th { background: #e8e8e8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .r-grid tr { break-inside: avoid; }
+  .r-grid ul { margin: 2pt 0 0; padding-left: 11pt; }
+  .r-grid td p { margin: 0 0 3pt; }
+  .r-check th:nth-child(1) { width: 31%; } .r-check th:nth-child(2), .r-check th:nth-child(3) { width: 27%; }
+  .r-risks th:nth-child(1) { width: 24%; } .r-risks th:nth-child(2), .r-risks th:nth-child(4) { width: 12%; } .r-risks th:nth-child(5) { width: 14%; }
+  table.r-narrow { width: auto; min-width: 70%; }
+  .r-prompt { color: #555; font-style: italic; font-size: 8pt; }
+  .r-pupil { font-weight: 700; font-size: 7.5pt; }
+  .r-qtext { font-weight: 700; }
+  .r-status { white-space: nowrap; }
+  .r-note { white-space: pre-wrap; }
+  .table-wrap { overflow: visible; margin-bottom: 8pt; }
+  table.matrix { min-width: 0; font-size: 8.5pt; }
+  table.matrix th, table.matrix td { border: .5pt solid #777; padding: 3pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table.matrix thead th { background: #e8e8e8; color: #000; }
+  .r-approval { border: .75pt solid #000; padding: 8pt 10pt; margin-top: 10pt; break-inside: avoid; }
+  .r-line { margin: 0 0 7pt !important; }
+  .r-blank { display: inline-block; min-width: 75mm; border-bottom: .75pt solid #000; height: 12pt; vertical-align: bottom; }
+  .r-section { break-before: page; }
+  .r-removed { border-bottom: .5pt solid #999; padding: 5pt 0; break-inside: avoid; }
+  .r-disclaimer { margin-top: 16pt; font-size: 8.5pt; color: #333; border-top: .5pt solid #999; padding-top: 6pt; break-inside: avoid; }
+  a { color: #000; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="bar">
+  <a class="brand" href="#start"><img id="logo" width="81" height="36" alt="LGfL" src="data:image/png;base64,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"><span class="brand-title">Gen AI Tool Quality Assurance</span></a>
+  <div class="bar-actions" id="bar-actions" hidden>
+    <span class="status" id="save-status" aria-live="polite"></span>
+    <button type="button" class="btn-bar" id="btn-download">Download</button>
+    <button type="button" class="btn-bar" id="btn-print">Print</button>
+  </div>
+</header>
+<div class="toolline" id="toolline" hidden></div>
+<main id="main" tabindex="-1"></main>
+<footer class="site-footer">
+  <p class="pilot" id="pilot"></p>
+  <p class="foot-meta" id="foot-meta"></p>
+</footer>
+<section class="cookie" id="cookie-banner" aria-label="Cookies" hidden></section>
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <h2 id="dlg-title"></h2>
+  <p id="dlg-body"></p>
+  <div class="dlg-actions"><button type="button" class="btn" id="dlg-cancel">Cancel</button><button type="button" class="btn primary" id="dlg-ok">OK</button></div>
+</dialog>
+<input type="file" id="file-input" accept=".json,application/json" hidden>
+<div id="report"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  const SETTINGS = window.CHECKER_SETTINGS || {};
+  const FORM = window.CHECKER_FORM || {};
+  const FILE_TYPE = 'lgfl-genai-tool-qa';
+  const FORMAT_VERSION = 1;
+  const STORE_KEY = 'lgfl-genai-qa.assessment';
+  const CONSENT_KEY = 'lgfl-genai-qa.analytics-consent';
+  const MAX_FILE_BYTES = 1024 * 1024;
+  const DEBUG = /[?&]debug(=|&|$)/.test(location.search);
+  const GA_ID = String(SETTINGS.gaMeasurementId || '').trim();
+  const FORM_VERSION = String(FORM.version || '');
+  const APP_NAME = String(FORM.title || 'Gen AI Tool Quality Assurance');
+  const DFE_URL = (safeUrl(FORM.dfeUrl) || '').split('#')[0];
+  const PAGE_NAME = 'Gen AI Tool Quality Assurance | LGfL';
+
+  const STATUSES = [
+    { value: 'met', label: 'Met', key: 'met' },
+    { value: 'part', label: 'Part', key: 'part' },
+    { value: 'not_met', label: 'Not Met', key: 'not_met' },
+    { value: 'na', label: 'N/A', key: 'not_applicable' },
+  ];
+  const STATUS_LABEL = Object.fromEntries(STATUSES.map(x => [x.value, x.label]));
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  const T = FORM.labels || {};
+  const SECTIONS = FORM.sections || {};
+  const AREAS = Array.isArray(FORM.areas) ? FORM.areas.filter(a => a && typeof a === 'object' && Array.isArray(a.standards)) : [];
+  const ALL_STANDARDS = AREAS.flatMap(a => a.standards.filter(s => s && typeof s === 'object'));
+  const STANDARD_BY_ID = new Map();
+  ALL_STANDARDS.forEach(s => { if (s.id && !STANDARD_BY_ID.has(s.id)) STANDARD_BY_ID.set(s.id, s); });
+  const areaOf = std => AREAS.find(a => a.standards.includes(std));
+  const USE_CASES = Array.isArray(FORM.useCases) ? FORM.useCases : [];
+  const RISK = FORM.riskMatrix || {};
+  const REVIEWERS = Array.isArray(FORM.reviewers) ? FORM.reviewers : [];
+  const REGISTERS = Array.isArray(FORM.registers) ? FORM.registers : [];
+  const DECISIONS = Array.isArray(FORM.decisions) ? FORM.decisions : [];
+  const DECISION_LABEL = Object.fromEntries(DECISIONS.map(d => [d.id, d.label]));
+  const PLACEHOLDERS = FORM.riskPlaceholders || {};
+
+  // The pages of the form, in order.
+  const areaHash = a => 'area-' + String(a.id).toLowerCase();
+  const PAGES = [{ hash: 'profile', kind: 'profile', section: 'profile' }]
+    .concat(AREAS.map(a => ({ hash: areaHash(a), kind: 'area', area: a })))
+    .concat([{ hash: 'risks', kind: 'risks', section: 'risks' }, { hash: 'signoff', kind: 'signoff', section: 'signoff' }]);
+  const navLabel = p => (p.area ? p.area.nav : SECTIONS[p.section].nav);
+  const pageTitle = p => (p.area ? p.area.title : SECTIONS[p.section].title);
+
+  const $ = sel => document.querySelector(sel);
+  const fileInput = $('#file-input');
+  const LOGO_SRC = $('#logo').src;
+
+  // Builds elements. Text always goes in as text nodes, never as HTML.
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    if (attrs) {
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v == null || v === false) continue;
+        if (k === 'class') el.className = v;
+        else if (k === 'value') el.value = v;
+        else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+        else el.setAttribute(k, v === true ? '' : v);
+      }
+    }
+    for (const kid of kids.flat()) {
+      if (kid == null || kid === false || kid === '') continue;
+      el.append(kid instanceof Node ? kid : String(kid));
+    }
+    return el;
+  }
+
+  function checkForm() {
+    const problems = [];
+    if (!FORM_VERSION) problems.push('The form has no version.');
+    ['profile', 'checklist', 'risks', 'signoff'].forEach(k => {
+      if (!SECTIONS[k] || !SECTIONS[k].title || !SECTIONS[k].nav) problems.push('sections.' + k + ' needs a title and a nav label.');
+    });
+    if (!AREAS.length) problems.push('There are no checklist areas.');
+    const areaIds = new Set();
+    AREAS.forEach((a, i) => {
+      if (!/^[A-Za-z0-9]+$/.test(String(a.id || '')) || areaIds.has(a.id)) problems.push('Area ' + (i + 1) + ' needs its own id made of letters or numbers.');
+      areaIds.add(a.id);
+      if (!a.title || !a.nav) problems.push('Area ' + (a.id || i + 1) + ' needs a title and a nav label.');
+      if (!a.standards.length) problems.push('Area ' + (a.id || i + 1) + ' has no standards.');
+    });
+    const seen = new Set();
+    ALL_STANDARDS.forEach((s, i) => {
+      const where = 'Standard ' + (s.id || i + 1);
+      ['id', 'title', 'supplier', 'school'].forEach(f => {
+        if (typeof s[f] !== 'string' || !s[f].trim()) problems.push(where + ' has no ' + f + '.');
+      });
+      if (!Array.isArray(s.criteria)) problems.push(where + ' has no criteria list.');
+      if (s.id) {
+        if (seen.has(s.id)) problems.push(where + ': the id is used more than once.');
+        seen.add(s.id);
+      }
+    });
+    const five = v => Array.isArray(v) && v.length === 5;
+    if (!five(RISK.likelihood) || !five(RISK.impact) || !five(RISK.bands) || RISK.bands.some(r => !five(r))) {
+      problems.push('The risk matrix needs 5 likelihood levels, 5 impact levels and a 5 by 5 table of bands.');
+    }
+    if (!DECISIONS.length) problems.push('There are no decisions to choose from.');
+    return problems;
+  }
+
+  // ---------- Small helpers ----------
+  const pad = n => String(n).padStart(2, '0');
+  const todayISO = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+  function fmtDate(ymd) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd || '');
+    return m && MONTHS[+m[2] - 1] ? (+m[3]) + ' ' + MONTHS[+m[2] - 1] + ' ' + m[1] : '';
+  }
+  function fmtDateTime(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  // The tool name as it can appear in a file name on Windows, Mac and ChromeOS.
+  const fileSafe = s => String(s).replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/^\.+|\.+$/g, '').slice(0, 60).trim() || 'tool';
+  function safeUrl(u) {
+    try {
+      const url = new URL(String(u || '').trim());
+      return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : null;
+    } catch (e) { return null; }
+  }
+  function joinList(parts) {
+    return parts.length < 2 ? parts.join('') : parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1];
+  }
+  const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
+  function disclaimer(tool) {
+    return 'This form records your school’s own review of ' + (tool ? tool : 'a tool') +
+      '. It is not an LGfL approval, endorsement or certification of the tool or its supplier.';
+  }
+  const extLink = (url, text) => h('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, text, h('span', { class: 'sr-only' }, ' (opens in a new tab)'));
+  // Text made of plain strings and { text, url } links.
+  function richText(segs) {
+    return (Array.isArray(segs) ? segs : [segs]).map(s => {
+      if (typeof s === 'string') return s;
+      const u = s && safeUrl(s.url);
+      return u ? extLink(u, s.text) : (s && s.text) || '';
+    });
+  }
+  function dfeRef(anchor) {
+    if (!DFE_URL || !anchor) return null;
+    const name = anchor.charAt(0).toUpperCase() + anchor.slice(1).replace(/-/g, ' ');
+    return h('p', { class: 'ref' }, extLink(DFE_URL + '#' + anchor, 'DfE standards: ' + name + ' ↗'));
+  }
+  const box = on => (on ? '☒' : '☐');
+  const ratingBand = (l, i) => (l && i ? RISK.bands[l - 1][i - 1] : '');
+  const ratingText = (l, i) => (l && i ? ratingBand(l, i) + ' (Score: ' + l * i + ')' : '');
+
+  const store = {
+    get(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { window.localStorage.setItem(k, v); return true; } catch (e) { return false; } },
+  };
+
+  // ---------- Assessment state ----------
+  let state = null;
+  let storageOk = true;
+  let saveTimer = null;
+  let firstRender = true;
+  let pendingFocus = null;
+  let flash = null;
+
+  function newRisk() {
+    return { id: 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), hazard: '', inherentL: 0, inherentI: 0, mitigation: '', residualL: 0, residualI: 0, owner: '' };
+  }
+
+  function newState() {
+    const now = new Date().toISOString();
+    return {
+      fileType: FILE_TYPE, formatVersion: FORMAT_VERSION,
+      formVersion: FORM_VERSION, standardIds: ALL_STANDARDS.map(s => s.id),
+      created: now, updated: now, downloaded: null,
+      profile: { tool: '', assessedBy: '', date: todayISO(), demographic: '', useCases: [], otherUse: '' },
+      standards: {},
+      risks: [newRisk()],
+      signoff: { reviewers: [], registers: [], approver: '', date: '', decision: '', whoCanUse: '', reviewDate: '' },
+      newIds: [],
+      analytics: { completeSent: false, areasSent: [] },
+      lastView: 'profile',
+    };
+  }
+
+  const answerHasContent = a => !!(a && (a.status || a.supplier || a.school));
+  const riskHasContent = r => !!(r.hazard.trim() || r.mitigation.trim() || r.owner.trim() || r.inherentL || r.inherentI || r.residualL || r.residualI);
+  function removedAnswers(s) {
+    return Object.keys(s.standards)
+      .filter(id => !STANDARD_BY_ID.has(id) && answerHasContent(s.standards[id]))
+      .map(id => Object.assign({ id }, s.standards[id]));
+  }
+
+  // Turns saved data (from this browser or a file) into a clean state, checking every field.
+  function migrate(d) {
+    if (!d || typeof d !== 'object' || d.fileType !== FILE_TYPE) return null;
+    if (!d.profile || typeof d.profile !== 'object' || !d.standards || typeof d.standards !== 'object' || Array.isArray(d.standards)) return null;
+    const str = v => (typeof v === 'string' ? v.slice(0, 20000) : '');
+    const ymd = v => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : '');
+    const rating = v => (Number.isInteger(v) && v >= 1 && v <= 5 ? v : 0);
+    const pick = (v, allowed) => (Array.isArray(v) ? Array.from(new Set(v.filter(x => allowed.has(x)))) : []);
+    const s = newState();
+    const p = d.profile;
+    s.profile = {
+      tool: str(p.tool), assessedBy: str(p.assessedBy), date: ymd(p.date), demographic: str(p.demographic),
+      useCases: pick(p.useCases, new Set(USE_CASES.map(u => u.id))), otherUse: str(p.otherUse),
+    };
+    const valid = new Set(STATUSES.map(x => x.value));
+    Object.keys(d.standards).slice(0, 500).forEach(id => {
+      const a = d.standards[id];
+      if (!a || typeof a !== 'object' || id.length > 100) return;
+      s.standards[id] = { status: valid.has(a.status) ? a.status : '', supplier: str(a.supplier), school: str(a.school), title: str(a.title) };
+    });
+    const riskIds = new Set();
+    s.risks = (Array.isArray(d.risks) ? d.risks : []).slice(0, 200).filter(r => r && typeof r === 'object').map(r => {
+      let id = str(r.id);
+      if (!/^[a-z0-9]{1,40}$/i.test(id) || riskIds.has(id)) id = newRisk().id;
+      riskIds.add(id);
+      return {
+        id, hazard: str(r.hazard), inherentL: rating(r.inherentL), inherentI: rating(r.inherentI),
+        mitigation: str(r.mitigation), residualL: rating(r.residualL), residualI: rating(r.residualI), owner: str(r.owner),
+      };
+    });
+    if (!s.risks.length) s.risks = [newRisk()];
+    const so = d.signoff && typeof d.signoff === 'object' ? d.signoff : {};
+    s.signoff = {
+      reviewers: pick(so.reviewers, new Set(REVIEWERS.map(r => r.id))),
+      registers: pick(so.registers, new Set(REGISTERS.map(r => r.id))),
+      approver: str(so.approver), date: ymd(so.date), decision: DECISION_LABEL[so.decision] ? so.decision : '',
+      whoCanUse: str(so.whoCanUse), reviewDate: ymd(so.reviewDate),
+    };
+    s.created = str(d.created) || s.created;
+    s.updated = str(d.updated) || s.updated;
+    s.downloaded = str(d.downloaded) || null;
+    const sameForm = str(d.formVersion) === FORM_VERSION;
+    const oldNew = Array.isArray(d.newIds) ? d.newIds.filter(x => typeof x === 'string' && STANDARD_BY_ID.has(x)) : [];
+    if (sameForm) {
+      s.newIds = oldNew;
+    } else {
+      const oldIds = Array.isArray(d.standardIds) ? new Set(d.standardIds) : null;
+      const added = ALL_STANDARDS.filter(x => (oldIds ? !oldIds.has(x.id) : !s.standards[x.id])).map(x => x.id);
+      s.newIds = Array.from(new Set(oldNew.concat(added)));
+    }
+    const an = d.analytics && typeof d.analytics === 'object' ? d.analytics : {};
+    s.analytics.completeSent = an.completeSent === true;
+    s.analytics.areasSent = Array.isArray(an.areasSent) ? an.areasSent.filter(x => typeof x === 'string') : [];
+    s.lastView = str(d.lastView) || 'profile';
+    // Only report changes when the form version differs, so the message shows once.
+    const notes = sameForm ? { added: 0, removed: 0 } : { added: s.newIds.length, removed: removedAnswers(s).length };
+    return { state: s, notes };
+  }
+
+  function loadSaved() {
+    const raw = store.get(STORE_KEY);
+    if (!raw) return null;
+    try { return migrate(JSON.parse(raw)); } catch (e) { return null; }
+  }
+
+  function changeText(n) {
+    const parts = [];
+    if (n.added) parts.push(plural(n.added, 'standard is new', 'standards are new'));
+    if (n.removed) parts.push(plural(n.removed, 'answer is for a standard', 'answers are for standards') + ' no longer in the checklist (kept in the file and printed at the end of the form)');
+    return parts.length ? 'The form has changed since this was saved: ' + joinList(parts) + '.' : '';
+  }
+
+  const hasTool = s => !!(s && s.profile.tool.trim());
+  const hasWork = s => !!(s && (hasTool(s) || Object.keys(s.standards).length || s.risks.some(riskHasContent)));
+  const notDownloaded = s => hasWork(s) && (!s.downloaded || s.downloaded < s.updated);
+
+  const statusOf = id => (state && state.standards[id] && state.standards[id].status) || '';
+  const doneIn = a => a.standards.filter(s => statusOf(s.id)).length;
+  const doneCount = () => ALL_STANDARDS.filter(s => statusOf(s.id)).length;
+  const areaCount = a => doneIn(a) + ' of ' + a.standards.length + ' with a status';
+  const loggedRisks = () => state.risks.filter(r => r.hazard.trim());
+  function statusCounts() {
+    const c = {};
+    STATUSES.forEach(x => { c[x.value] = 0; });
+    let none = 0;
+    ALL_STANDARDS.forEach(s => { const v = statusOf(s.id); if (v) c[v]++; else none++; });
+    return { c, none };
+  }
+
+  function touch() {
+    state.updated = new Date().toISOString();
+    scheduleSave();
+  }
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(persist, 300);
+  }
+  function persist() {
+    clearTimeout(saveTimer);
+    saveTimer = null;
+    if (!state) return;
+    state.formVersion = FORM_VERSION;
+    state.standardIds = ALL_STANDARDS.map(s => s.id);
+    if (hasTool(state)) storageOk = store.set(STORE_KEY, JSON.stringify(state));
+    renderStatus();
+  }
+
+  // ---------- Analytics (Google Analytics 4, only after consent) ----------
+  let gaLoaded = false;
+  const consent = () => store.get(CONSENT_KEY);
+
+  function loadGA() {
+    if (!GA_ID) return;
+    window['ga-disable-' + GA_ID] = false;
+    if (gaLoaded) return;
+    gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { allow_google_signals: false, allow_ad_personalization_signals: false });
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+    document.head.append(s);
+  }
+
+  function disableGA() {
+    if (!GA_ID) return;
+    window['ga-disable-' + GA_ID] = true;
+    const names = document.cookie.split(';').map(c => c.trim().split('=')[0]).filter(n => /^_ga(_|$)/.test(n));
+    const parts = location.hostname.split('.');
+    const domains = [''];
+    for (let i = 0; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
+    names.forEach(n => domains.forEach(dm => {
+      document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + (dm ? '; domain=' + dm : '');
+    }));
+  }
+
+  // Never pass anything a school typed into track().
+  function track(name, params) {
+    const sending = !!(GA_ID && consent() === 'granted' && window.gtag);
+    if (DEBUG) console.info('[analytics]', name, params || {}, sending ? 'sent' : 'not sent');
+    if (sending) window.gtag('event', name, params || {});
+  }
+
+  function checkCompletion() {
+    AREAS.forEach(a => {
+      if (doneIn(a) === a.standards.length && !state.analytics.areasSent.includes(a.id)) {
+        state.analytics.areasSent.push(a.id);
+        track('section_complete', { section: a.id });
+      }
+    });
+  }
+
+  // A recorded decision is the finish line.
+  function recordDecision() {
+    if (state.analytics.completeSent || !state.signoff.decision) return;
+    state.analytics.completeSent = true;
+    const { c, none } = statusCounts();
+    const params = { form_version: FORM_VERSION, decision: state.signoff.decision, risks_logged: loggedRisks().length, not_answered: none };
+    STATUSES.forEach(x => { params[x.key] = c[x.value]; });
+    track('assessment_complete', params);
+  }
+
+  function showBanner() {
+    $('#cookie-banner').hidden = false;
+    document.body.classList.add('has-banner');
+  }
+  function hideBanner() {
+    $('#cookie-banner').hidden = true;
+    document.body.classList.remove('has-banner');
+  }
+  function setConsent(value) {
+    store.set(CONSENT_KEY, value);
+    if (value === 'granted') loadGA(); else disableGA();
+    hideBanner();
+  }
+  function buildBanner() {
+    const privacy = safeUrl(SETTINGS.privacyNoticeUrl);
+    $('#cookie-banner').append(
+      h('p', null,
+        'Can we use Google Analytics cookies to count how many people use this form and finish an assessment? Google never receives what you type into the form.',
+        privacy ? [' ', h('a', { href: privacy, target: '_blank', rel: 'noopener noreferrer' }, 'Privacy notice')] : null),
+      h('div', { class: 'cookie-btns' },
+        h('button', { type: 'button', class: 'btn-bar', onclick: () => setConsent('granted') }, 'Accept'),
+        h('button', { type: 'button', class: 'btn-bar', onclick: () => setConsent('denied') }, 'Reject')));
+  }
+
+  // ---------- Dialog ----------
+  function ask(opts) {
+    const title = opts.title, body = opts.body || '', okLabel = opts.ok || 'OK', cancelLabel = opts.cancel === undefined ? 'Cancel' : opts.cancel;
+    const dlg = $('#dlg');
+    if (!dlg || typeof dlg.showModal !== 'function') {
+      if (cancelLabel) return Promise.resolve(window.confirm(title + '\n\n' + body));
+      window.alert(title + '\n\n' + body);
+      return Promise.resolve(true);
+    }
+    $('#dlg-title').textContent = title;
+    $('#dlg-body').textContent = body;
+    const okBtn = $('#dlg-ok'), cancelBtn = $('#dlg-cancel');
+    okBtn.textContent = okLabel;
+    cancelBtn.textContent = cancelLabel || '';
+    cancelBtn.hidden = !cancelLabel;
+    return new Promise(resolve => {
+      const done = v => {
+        okBtn.onclick = null; cancelBtn.onclick = null; dlg.oncancel = null;
+        dlg.close();
+        resolve(v);
+      };
+      okBtn.onclick = () => done(true);
+      cancelBtn.onclick = () => done(false);
+      dlg.oncancel = e => { e.preventDefault(); done(!cancelLabel); };
+      dlg.showModal();
+      (cancelLabel ? cancelBtn : okBtn).focus();
+    });
+  }
+
+  // ---------- Starting, saving and loading ----------
+  async function startNew() {
+    const existing = hasTool(state) ? state : (loadSaved() || {}).state;
+    if (existing && notDownloaded(existing)) {
+      const ok = await ask({
+        title: 'Start a new assessment?',
+        body: 'The assessment of ' + (existing.profile.tool || 'your tool') + ' hasn’t been downloaded since your last change. If you start a new one, it will be replaced in this browser as soon as you name the new tool.',
+        ok: 'Start new', cancel: 'Keep it',
+      });
+      if (!ok) return;
+    }
+    state = newState();
+    track('assessment_start', { method: 'new' });
+    go('profile');
+  }
+
+  function carryOn() {
+    if (!hasTool(state)) {
+      const saved = loadSaved();
+      if (!saved) { render(); return; }
+      state = saved.state;
+      flash = changeText(saved.notes) || null;
+      track('assessment_start', { method: 'carry_on' });
+      persist();
+    }
+    go(validHash(state.lastView) || 'profile');
+  }
+
+  function chooseFile() {
+    fileInput.value = '';
+    fileInput.click();
+  }
+
+  async function loadError(reason, message) {
+    track('file_load_error', { reason });
+    await ask({ title: 'Couldn’t load that file', body: message, cancel: null });
+  }
+
+  async function onFileChosen() {
+    const f = fileInput.files && fileInput.files[0];
+    if (!f) return;
+    if (f.size > MAX_FILE_BYTES) return loadError('too_big', 'That file is over 1 MB, which is too big to be a save file from this form.');
+    let data;
+    try { data = JSON.parse(await f.text()); } catch (e) {
+      return loadError('damaged', 'That file couldn’t be read. It may be damaged, or it may not be a save file from this form.');
+    }
+    if (!data || data.fileType !== FILE_TYPE) return loadError('wrong_type', 'That isn’t a save file from the Gen AI Tool Quality Assurance form.');
+    const loaded = migrate(data);
+    if (!loaded) return loadError('damaged', 'That save file is damaged, so it couldn’t be loaded.');
+    const existing = hasTool(state) ? state : (loadSaved() || {}).state;
+    if (existing && notDownloaded(existing)) {
+      const ok = await ask({
+        title: 'Replace the assessment in this browser?',
+        body: 'The assessment of ' + existing.profile.tool + ' hasn’t been downloaded since your last change. Loading this file will replace it.',
+        ok: 'Load the file', cancel: 'Cancel',
+      });
+      if (!ok) return;
+    }
+    state = loaded.state;
+    persist();
+    flash = 'Loaded the assessment of ' + (state.profile.tool || 'the tool') + '. ' + changeText(loaded.notes);
+    track('assessment_start', { method: 'load_file' });
+    go(validHash(state.lastView) || 'profile');
+  }
+
+  async function downloadAssessment() {
+    if (!state) return;
+    if (!hasTool(state)) {
+      await ask({ title: 'Add the tool name first', body: 'The save file is named after the tool, so add the ' + T.tool + ' in section 1 first.', ok: 'Go to section 1', cancel: null });
+      go('profile');
+      return;
+    }
+    const stamp = new Date().toISOString();
+    state.downloaded = stamp > state.updated ? stamp : state.updated;
+    state.formVersion = FORM_VERSION;
+    state.standardIds = ALL_STANDARDS.map(s => s.id);
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = h('a', { href: url, download: 'Gen AI QA save file - ' + fileSafe(state.profile.tool) + ' - ' + todayISO() + '.json' });
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    persist();
+    track('assessment_download', {});
+  }
+
+  function printReport() {
+    buildReport();
+    window.print();
+  }
+
+  // ---------- Routing ----------
+  const pageIndex = hv => PAGES.findIndex(p => p.hash === hv);
+  const validHash = hv => (pageIndex(hv) >= 0 ? hv : null);
+  function currentRoute() {
+    const i = pageIndex(location.hash.slice(1));
+    if (!state || i < 0) return { view: 'start', index: -1 };
+    return { view: PAGES[i].kind, index: i, page: PAGES[i] };
+  }
+  function go(hv) {
+    if (location.hash === '#' + hv) render(); else location.hash = hv;
+  }
+  function goToStandard(s) {
+    pendingFocus = s.id;
+    go(areaHash(areaOf(s)));
+  }
+
+  // ---------- Rendering ----------
+  function renderStatus() {
+    const el = $('#save-status');
+    if (!el || !state) return;
+    const pending = hasTool(state) && notDownloaded(state);
+    let text;
+    if (!hasTool(state)) text = 'Add the tool name to start';
+    else if (!storageOk) text = 'This browser can’t keep your answers: download a save file';
+    else text = pending ? 'Changes not downloaded yet' : 'Downloaded · up to date';
+    if (el.textContent !== text) el.textContent = text;
+    $('#btn-download').classList.toggle('attention', pending);
+  }
+
+  function renderBar() {
+    $('#bar-actions').hidden = !state;
+    renderStatus();
+  }
+
+  function renderToolLine(route) {
+    const el = $('#toolline');
+    if (!state || route.view === 'start') { el.hidden = true; return; }
+    const p = state.profile;
+    const bits = [p.assessedBy.trim() ? 'assessed by ' + p.assessedBy.trim() : '', fmtDate(p.date)].filter(Boolean);
+    el.replaceChildren('Assessing ', h('b', null, p.tool.trim() || 'a new tool'), bits.length ? ' · ' + bits.join(' · ') : '');
+    el.hidden = false;
+  }
+
+  function navCount(p) {
+    if (p.kind === 'profile') return hasTool(state) ? '✓' : '';
+    if (p.kind === 'area') return doneIn(p.area) + ' of ' + p.area.standards.length;
+    if (p.kind === 'risks') { const n = loggedRisks().length; return n ? n + ' logged' : ''; }
+    return state.signoff.decision ? '✓' : '';
+  }
+
+  function viewNav(route) {
+    const total = ALL_STANDARDS.length, done = doneCount();
+    const items = [];
+    PAGES.forEach((p, i) => {
+      if (p.kind === 'area' && PAGES[i - 1].kind !== 'area') items.push(h('li', { class: 'group' }, SECTIONS.checklist.nav));
+      items.push(h('li', { class: p.kind === 'area' ? 'sub-item' : null },
+        h('a', { href: '#' + p.hash, 'aria-current': route.index === i ? 'page' : null },
+          h('span', null, navLabel(p)), h('span', { class: 'count' }, navCount(p)))));
+    });
+    return h('nav', { class: 'sections', 'aria-label': 'Sections' },
+      h('div', { class: 'overall' }, 'Checklist: ' + done + ' of ' + total + ' standards with a status',
+        h('div', { class: 'progress', 'aria-hidden': 'true' }, h('span', { style: 'width:' + (total ? Math.round(100 * done / total) : 0) + '%' }))),
+      h('ul', null, items));
+  }
+
+  function mobileNav(route) {
+    const opts = [];
+    let group = null;
+    PAGES.forEach((p, i) => {
+      const count = navCount(p);
+      const o = h('option', { value: p.hash, selected: route.index === i }, navLabel(p) + (count && count !== '✓' ? ' (' + count + ')' : ''));
+      if (p.kind === 'area') {
+        if (!group) { group = h('optgroup', { label: SECTIONS.checklist.nav }); opts.push(group); }
+        group.append(o);
+      } else {
+        opts.push(o);
+      }
+    });
+    const sel = h('select', { id: 'jump', onchange: e => go(e.target.value) }, opts);
+    return h('div', { class: 'mobile-nav' }, h('label', { class: 'field-label', for: 'jump' }, 'Go to'), sel);
+  }
+
+  function refreshNav() {
+    const route = currentRoute();
+    const nav = document.querySelector('nav.sections');
+    if (nav) nav.replaceWith(viewNav(route));
+    const mob = document.querySelector('.mobile-nav');
+    if (mob) mob.replaceWith(mobileNav(route));
+    const ac = $('#area-count');
+    if (ac && route.view === 'area') ac.textContent = areaCount(route.page.area);
+  }
+
+  function render() {
+    const route = currentRoute();
+    if (state && route.view !== 'start') {
+      const hv = location.hash.slice(1);
+      if (state.lastView !== hv) { state.lastView = hv; if (hasTool(state)) scheduleSave(); }
+    }
+    renderBar();
+    renderToolLine(route);
+    const main = $('#main');
+    main.replaceChildren();
+    if (route.view === 'start') {
+      main.append(viewStart());
+      document.title = PAGE_NAME;
+    } else {
+      const content = h('div', { class: 'content' }, mobileNav(route));
+      if (flash) { content.append(h('div', { class: 'flash', role: 'status' }, flash)); flash = null; }
+      const views = { profile: viewProfile, area: viewArea, risks: viewRisks, signoff: viewSignoff };
+      content.append(views[route.view](route.index));
+      main.append(h('div', { class: 'layout' }, viewNav(route), content));
+      document.title = pageTitle(route.page) + ' · ' + PAGE_NAME;
+    }
+    if (pendingFocus) {
+      const el = document.getElementById('q-' + pendingFocus);
+      pendingFocus = null;
+      if (el) {
+        el.scrollIntoView({ block: 'start' });
+        const first = el.querySelector('textarea, input');
+        if (first) first.focus({ preventScroll: true });
+      }
+    } else if (!firstRender) {
+      window.scrollTo(0, 0);
+      const h1 = main.querySelector('h1');
+      if (h1) h1.focus({ preventScroll: true });
+    }
+    firstRender = false;
+  }
+
+  // Form controls. Each calls onInput with the new value, then marks the assessment changed.
+  function textInput(id, label, value, onInput, opts) {
+    opts = opts || {};
+    const input = h('input', {
+      type: opts.type || 'text', id, value: value || '', autocomplete: 'off', placeholder: opts.placeholder,
+      'aria-describedby': opts.hint ? id + '-hint' : null,
+      oninput: e => { onInput(e.target.value); touch(); },
+    });
+    return h('div', { class: 'field' + (opts.wide ? ' wide' : '') + (opts.extraClass ? ' ' + opts.extraClass : ''), hidden: opts.hidden },
+      h('label', { class: 'field-label', for: id }, label),
+      opts.hint ? h('p', { class: 'hint', id: id + '-hint' }, opts.hint) : null,
+      input, opts.after);
+  }
+  function textArea(id, label, hint, value, onInput, opts) {
+    opts = opts || {};
+    return h('div', { class: 'field' + (opts.wide ? ' wide' : '') },
+      h('label', { class: 'field-label', for: id }, label),
+      hint ? h('p', { class: 'hint', id: id + '-hint' }, hint) : null,
+      h('textarea', {
+        id, rows: String(opts.rows || 4), value: value || '', placeholder: opts.placeholder,
+        'aria-describedby': hint ? id + '-hint' : null,
+        oninput: e => { onInput(e.target.value); touch(); },
+      }));
+  }
+  // A tick box that adds or removes value in list (an array held in the state).
+  function checkRow(id, labelKids, list, value, after) {
+    const input = h('input', {
+      type: 'checkbox', id, checked: list.includes(value), onchange: e => {
+        const i = list.indexOf(value);
+        if (e.target.checked && i < 0) list.push(value);
+        if (!e.target.checked && i >= 0) list.splice(i, 1);
+        touch();
+        if (after) after(e.target.checked);
+      },
+    });
+    return h('label', { class: 'check', for: id }, input, h('span', null, labelKids));
+  }
+
+  function nextback(idx, nextEl) {
+    const prev = PAGES[idx - 1], next = PAGES[idx + 1];
+    return h('div', { class: 'nextback' },
+      h('a', { class: 'btn', href: '#' + (prev ? prev.hash : 'start') }, '← ' + (prev ? navLabel(prev) : 'Back to start')),
+      nextEl || (next ? h('a', { class: 'btn primary', href: '#' + next.hash }, 'Next: ' + navLabel(next) + ' →') : null));
+  }
+
+  function pageHeading(idx, small) {
+    return [
+      h('h1', { class: 'section-title', tabindex: '-1' }, h('span', null, pageTitle(PAGES[idx])), small || null),
+      h('hr', { class: 'rule' }),
+    ];
+  }
+
+  function viewStart() {
+    const existing = hasTool(state) ? state : (loadSaved() || {}).state;
+    const actions = h('div', { class: 'hero-actions' });
+    if (hasTool(existing)) {
+      actions.append(h('button', { type: 'button', class: 'btn-hero primary', onclick: carryOn },
+        h('span', null, 'Carry on with ' + existing.profile.tool),
+        h('span', { class: 'btn-note' }, 'Kept in this browser · last changed ' + fmtDateTime(existing.updated))));
+    }
+    actions.append(
+      h('button', { type: 'button', class: 'btn-hero' + (hasTool(existing) ? '' : ' primary'), onclick: startNew }, 'Start a new assessment'),
+      h('button', { type: 'button', class: 'btn-hero', onclick: chooseFile }, 'Load a saved file'));
+    const step = (title, text) => h('div', null, h('h3', null, title), h('p', null, text));
+    return h('div', null,
+      h('section', { class: 'hero' },
+        h('h1', { tabindex: '-1' }, APP_NAME),
+        h('p', null, FORM.tagline),
+        actions),
+      h('div', { class: 'intro' },
+        h('p', { class: 'lead' }, richText(FORM.intro)),
+        h('h2', null, 'How it works'),
+        h('div', { class: 'steps' },
+          step('1. Complete the four sections', 'Tool profile, the ' + ALL_STANDARDS.length + ' DfE standards, the risk assessment and mitigation log, and the approval sign-off.'),
+          step('2. Save it to come back later', 'Whenever you stop, download a save file and keep it somewhere safe. Next time, choose Load a saved file to pick up where you left off, or pass the file to a colleague. You never need to open it yourself.'),
+          step('3. Print the completed form', 'Print it or save it as a PDF, sign it and keep it as evidence of your decision.')),
+        h('p', { class: 'browser-note' }, h('strong', null, 'Don’t rely on this browser to keep your work. '),
+          'Answers are kept here as you go so a refresh doesn’t lose them, but they can be cleared at any time, for example on a shared computer, in a private window or when browser data is wiped.'),
+        h('h2', null, 'Your privacy'),
+        h('p', null, 'Nothing you type into the form is sent anywhere. It stays in this browser and in any file you download.',
+          GA_ID ? ' With your permission, we use Google Analytics to count visits and finished assessments. It never receives your answers or notes.' : ''),
+        h('p', { class: 'disclaimer' }, disclaimer(null))));
+  }
+
+  function viewProfile(idx) {
+    const p = state.profile;
+    const toolError = h('p', { class: 'error', id: 'f-tool-error', hidden: true }, 'Enter the ' + T.tool + ' before you continue.');
+    const tool = textInput('f-tool', T.tool, p.tool, v => {
+      p.tool = v;
+      if (v.trim()) {
+        toolError.hidden = true;
+        $('#f-tool').removeAttribute('aria-invalid');
+        $('#f-tool').removeAttribute('aria-describedby');
+      }
+      renderToolLine(currentRoute());
+      refreshNav();
+    }, { after: toolError });
+    const other = USE_CASES.find(u => u.other);
+    const otherField = other ? textInput('f-other', T.otherSpecify, p.otherUse, v => { p.otherUse = v; },
+      { extraClass: 'other-field', hidden: !p.useCases.includes(other.id) }) : null;
+    const useCases = h('fieldset', { class: 'field wide' },
+      h('legend', { class: 'field-label' }, T.useCases, h('span', { class: 'optional' }, ' ' + T.useCasesHint)),
+      dfeRef('educational-use-cases'),
+      h('div', { class: 'checks' }, USE_CASES.map(u => checkRow('uc-' + u.id, u.label, p.useCases, u.id, on => {
+        if (!u.other) return;
+        otherField.hidden = !on;
+        if (on) $('#f-other').focus();
+      }))),
+      otherField);
+    const next = PAGES[idx + 1];
+    const cont = h('button', {
+      type: 'button', class: 'btn primary', onclick: () => {
+        if (!hasTool(state)) {
+          const f = $('#f-tool');
+          f.setAttribute('aria-invalid', 'true');
+          f.setAttribute('aria-describedby', 'f-tool-error');
+          toolError.hidden = false;
+          f.focus();
+          return;
+        }
+        persist();
+        go(next.hash);
+      },
+    }, 'Next: ' + navLabel(next) + ' →');
+    return h('div', null,
+      pageHeading(idx),
+      h('div', { class: 'details-grid' },
+        tool,
+        textInput('f-assessed', T.assessedBy, p.assessedBy, v => { p.assessedBy = v; renderToolLine(currentRoute()); }),
+        textInput('f-date', T.date, p.date, v => { p.date = v; renderToolLine(currentRoute()); }, { type: 'date' }),
+        textArea('f-demo', T.demographic, FORM.demographicHint, p.demographic, v => { p.demographic = v; }, { wide: true, rows: 3 }),
+        useCases),
+      nextback(idx, cont));
+  }
+
+  function markPupilNA(a) {
+    let n = 0;
+    a.standards.forEach(s => {
+      if (!s.pupilsOnly || statusOf(s.id)) return;
+      const cur = state.standards[s.id] || { status: '', supplier: '', school: '' };
+      cur.status = 'na';
+      cur.title = s.num + '. ' + s.title;
+      state.standards[s.id] = cur;
+      state.newIds = state.newIds.filter(x => x !== s.id);
+      n++;
+    });
+    touch();
+    checkCompletion();
+    persist();
+    flash = plural(n, 'standard', 'standards') + ' marked N/A. You can still change them.';
+    render();
+  }
+
+  function viewArea(idx) {
+    const a = PAGES[idx].area;
+    const pupilLabel = String(FORM.pupilsOnlyLabel || '');
+    const openPupil = a.standards.some(s => s.pupilsOnly && !statusOf(s.id));
+    return h('div', null,
+      h('p', { class: 'kicker' }, SECTIONS.checklist.title),
+      pageHeading(idx, h('small', { id: 'area-count' }, areaCount(a))),
+      h('div', { class: 'section-intro' },
+        h('p', null, FORM.checklistIntro),
+        openPupil ? h('div', { class: 'na-offer' },
+          h('span', null, 'Standards marked “' + pupilLabel.replace(/:\s*$/, '') + '” only apply if pupils use the tool.'),
+          h('button', { type: 'button', class: 'btn small', onclick: () => markPupilNA(a) }, 'Pupils won’t use it: mark them N/A')) : null),
+      a.standards.map(standardBlock),
+      nextback(idx));
+  }
+
+  function standardBlock(s) {
+    const a = state.standards[s.id] || {};
+    const meta = h('p', { class: 'q-meta' });
+    if (s.pupilsOnly) meta.append(h('span', { class: 'badge warn' }, FORM.pupilsOnlyLabel));
+    if (state.newIds.includes(s.id)) meta.append(h('span', { class: 'badge', 'data-flag': '' }, 'New'));
+    const update = patch => {
+      const cur = state.standards[s.id] || { status: '', supplier: '', school: '' };
+      Object.assign(cur, patch);
+      cur.title = s.num + '. ' + s.title;
+      state.standards[s.id] = cur;
+      if (state.newIds.includes(s.id)) {
+        state.newIds = state.newIds.filter(x => x !== s.id);
+        meta.querySelectorAll('[data-flag]').forEach(x => x.remove());
+      }
+    };
+    const radios = [];
+    const setStatus = v => {
+      update({ status: v });
+      touch();
+      clearBtn.hidden = !v;
+      refreshNav();
+      checkCompletion();
+      persist();
+    };
+    const clearBtn = h('button', {
+      type: 'button', class: 'btn-link', hidden: !a.status,
+      onclick: () => { radios.forEach(r => { r.checked = false; }); setStatus(''); radios[0].focus(); },
+    }, 'Clear status');
+    const options = STATUSES.map(x => {
+      const input = h('input', { type: 'radio', name: 'st-' + s.id, value: x.value, checked: a.status === x.value, onchange: () => setStatus(x.value) });
+      radios.push(input);
+      return h('label', { class: 'opt' }, input, h('span', null, x.label));
+    });
+    const tid = 't-' + s.id;
+    return h('section', { class: 'q', id: 'q-' + s.id, 'aria-labelledby': tid },
+      meta.childNodes.length ? meta : null,
+      h('h2', { class: 'q-text', id: tid }, s.num + '. ' + s.title),
+      h('ul', { class: 'criteria' }, s.criteria.map(c => h('li', null, c))),
+      dfeRef(s.dfe),
+      h('div', { class: 'qfields' },
+        textArea('sup-' + s.id, T.supplier, s.supplier, a.supplier, v => update({ supplier: v })),
+        textArea('sch-' + s.id, T.school, s.school, a.school, v => update({ school: v }))),
+      h('fieldset', null,
+        h('legend', { class: 'field-label' }, T.status, h('span', { class: 'sr-only' }, ' for ' + s.num + '. ' + s.title)),
+        h('div', { class: 'resp' }, options),
+        h('div', { class: 'clear-row' }, clearBtn)));
+  }
+
+  function matrixTable() {
+    const L = RISK.likelihood, I = RISK.impact;
+    const rows = L.map((_, k) => L.length - 1 - k); // Almost Certain at the top, as in the template
+    return h('div', { class: 'table-wrap' }, h('table', { class: 'matrix' },
+      h('caption', null, RISK.name),
+      h('thead', null, h('tr', null, h('th', { scope: 'col' }, T.likelihood), I.map((n, k) => h('th', { scope: 'col' }, n + ' (' + (k + 1) + ')')))),
+      h('tbody', null, rows.map(l => h('tr', null,
+        h('th', { scope: 'row' }, L[l] + ' (' + (l + 1) + ')'),
+        I.map((_, i) => {
+          const band = RISK.bands[l][i];
+          return h('td', { class: 'band-' + String(band).toLowerCase() }, band + ' (' + (l + 1) * (i + 1) + ')');
+        }))))));
+  }
+
+  function exampleCard(ex) {
+    return h('div', { class: 'example' },
+      h('h3', null, ex.title),
+      h('p', null, ex.hazard),
+      h('dl', null,
+        h('dt', null, T.inherent), h('dd', null, ex.inherent),
+        h('dt', null, T.mitigation), h('dd', null, h('ul', null, (ex.mitigation || []).map(m => h('li', null, m)))),
+        h('dt', null, T.residual), h('dd', null, ex.residual),
+        h('dt', null, T.owner), h('dd', null, ex.owner)));
+  }
+
+  function ratingPicker(idBase, label, r, lKey, iKey) {
+    const out = h('output', { id: idBase + '-out', 'aria-live': 'polite' });
+    const show = () => {
+      const text = ratingText(r[lKey], r[iKey]);
+      out.textContent = text || 'Not rated yet';
+      out.className = 'rating ' + (text ? 'band-' + ratingBand(r[lKey], r[iKey]).toLowerCase() : 'none');
+    };
+    const pickOne = (key, text, names) => {
+      const sid = idBase + '-' + key;
+      return h('div', { class: 'field' },
+        h('label', { class: 'rating-label', for: sid }, text),
+        h('select', { id: sid, onchange: e => { r[key] = +e.target.value; touch(); show(); } },
+          h('option', { value: '0' }, 'Choose'),
+          names.map((n, k) => h('option', { value: String(k + 1), selected: r[key] === k + 1 }, n + ' (' + (k + 1) + ')'))));
+    };
+    show();
+    return h('fieldset', { class: 'rating-picker' },
+      h('legend', { class: 'field-label' }, label),
+      h('div', { class: 'rating-row' },
+        pickOne(lKey, T.likelihood, RISK.likelihood),
+        pickOne(iKey, T.impact, RISK.impact),
+        h('div', { class: 'rating-result' }, out)));
+  }
+
+  function riskCard(r, i, removeRisk) {
+    const id = 'risk-' + r.id;
+    return h('section', { class: 'risk', 'aria-labelledby': id + '-t' },
+      h('div', { class: 'risk-head' },
+        h('h3', { id: id + '-t' }, 'Risk ' + (i + 1)),
+        h('button', { type: 'button', class: 'btn-link', onclick: () => removeRisk(r) }, 'Remove', h('span', { class: 'sr-only' }, ' risk ' + (i + 1)))),
+      textArea(id + '-hazard', T.hazard, null, r.hazard, v => { r.hazard = v; refreshNav(); }, { rows: 3, placeholder: PLACEHOLDERS.hazard }),
+      ratingPicker(id + '-inh', T.inherent, r, 'inherentL', 'inherentI'),
+      textArea(id + '-mit', T.mitigation, null, r.mitigation, v => { r.mitigation = v; }, { rows: 4, placeholder: PLACEHOLDERS.mitigation }),
+      ratingPicker(id + '-res', T.residual, r, 'residualL', 'residualI'),
+      textInput(id + '-owner', T.owner, r.owner, v => { r.owner = v; }, { placeholder: PLACEHOLDERS.owner }));
+  }
+
+  function viewRisks(idx) {
+    const list = h('div');
+    const draw = () => list.replaceChildren(...state.risks.map((r, i) => riskCard(r, i, removeRisk)));
+    const addBtn = h('button', {
+      type: 'button', class: 'btn', onclick: () => {
+        const r = newRisk();
+        state.risks.push(r);
+        touch();
+        draw();
+        const f = document.getElementById('risk-' + r.id + '-hazard');
+        if (f) f.focus();
+      },
+    }, '+ Add another risk');
+    async function removeRisk(r) {
+      if (riskHasContent(r)) {
+        const ok = await ask({ title: 'Remove this risk?', body: 'What you’ve written for this risk will be deleted.', ok: 'Remove', cancel: 'Keep it' });
+        if (!ok) return;
+      }
+      state.risks = state.risks.filter(x => x !== r);
+      if (!state.risks.length) state.risks.push(newRisk());
+      touch();
+      draw();
+      refreshNav();
+      persist();
+      addBtn.focus();
+    }
+    draw();
+    const examples = Array.isArray(FORM.riskExamples) ? FORM.riskExamples : [];
+    return h('div', null,
+      pageHeading(idx),
+      h('div', { class: 'section-intro' }, h('p', null, FORM.riskIntro)),
+      matrixTable(),
+      examples.length ? h('details', { class: 'panel' },
+        h('summary', null, 'Show the ' + (examples.length === 2 ? 'two examples' : 'examples')),
+        h('div', { class: 'panel-body' }, examples.map(exampleCard))) : null,
+      h('h2', { class: 'sub' }, 'Your risks'),
+      list,
+      h('div', { class: 'add-row' }, addBtn),
+      nextback(idx));
+  }
+
+  function todoItems() {
+    const items = [];
+    if (!hasTool(state)) items.push(h('a', { href: '#profile' }, T.tool));
+    ALL_STANDARDS.filter(s => !statusOf(s.id)).forEach(s => {
+      items.push(h('a', { href: '#' + areaHash(areaOf(s)), onclick: e => { e.preventDefault(); goToStandard(s); } }, T.status + ' for ' + s.num + '. ' + s.title));
+    });
+    state.risks.forEach((r, i) => {
+      if (r.hazard.trim() && (!ratingText(r.inherentL, r.inherentI) || !ratingText(r.residualL, r.residualI))) {
+        items.push(h('a', { href: '#risks' }, T.inherent + ' and ' + T.residual.toLowerCase() + ' for risk ' + (i + 1)));
+      }
+    });
+    if (!state.signoff.decision) items.push(T.decision);
+    return items.length ? [h('h2', { class: 'sub' }, 'Still to complete'), h('ul', { class: 'plain-list' }, items.map(x => h('li', null, x)))] : [];
+  }
+
+  function viewSignoff(idx) {
+    const so = state.signoff;
+    const todo = h('div');
+    const drawTodo = () => todo.replaceChildren(...todoItems());
+    const radios = [];
+    const setDecision = v => {
+      so.decision = v;
+      touch();
+      clearBtn.hidden = !v;
+      if (v) recordDecision();
+      refreshNav();
+      drawTodo();
+      persist();
+    };
+    const clearBtn = h('button', {
+      type: 'button', class: 'btn-link', hidden: !so.decision,
+      onclick: () => { radios.forEach(r => { r.checked = false; }); setDecision(''); radios[0].focus(); },
+    }, 'Clear decision');
+    const decision = h('fieldset', { class: 'field' },
+      h('legend', { class: 'field-label' }, T.decision),
+      h('div', { class: 'resp two' }, DECISIONS.map(d => {
+        const input = h('input', { type: 'radio', name: 'decision', value: d.id, checked: so.decision === d.id, onchange: () => setDecision(d.id) });
+        radios.push(input);
+        return h('label', { class: 'opt' }, input, h('span', null, d.label));
+      })),
+      h('div', { class: 'clear-row' }, clearBtn));
+    drawTodo();
+    return h('div', null,
+      pageHeading(idx),
+      h('div', { class: 'section-intro' }, h('p', null, FORM.signOffIntro)),
+      h('fieldset', { class: 'field' },
+        h('legend', { class: 'field-label' }, T.reviewed),
+        h('div', { class: 'checks' }, REVIEWERS.map(r => checkRow('rev-' + r.id, r.label, so.reviewers, r.id)))),
+      h('p', { class: 'browser-note' }, FORM.disagreeNote),
+      h('div', { class: 'checks' }, REGISTERS.map(r => checkRow('reg-' + r.id,
+        [h('strong', null, r.label), ': ', h('span', { class: 'quiet' }, r.tick)], so.registers, r.id))),
+      h('div', { class: 'approval' },
+        h('div', { class: 'details-grid' },
+          textInput('f-approver', T.approver, so.approver, v => { so.approver = v; }),
+          h('div', { class: 'field' }, h('p', { class: 'field-label' }, T.signature), h('p', { class: 'sig-note' }, 'Sign the printed form.')),
+          textInput('f-approval-date', T.approvalDate, so.date, v => { so.date = v; }, { type: 'date' })),
+        decision,
+        h('div', { class: 'details-grid' },
+          textInput('f-who', T.whoCanUse, so.whoCanUse, v => { so.whoCanUse = v; }),
+          textInput('f-review', T.reviewDate, so.reviewDate, v => { so.reviewDate = v; }, { type: 'date' }))),
+      todo,
+      h('h2', { class: 'sub' }, 'Coming back to this later?'),
+      h('p', null, 'Download a save file and keep it somewhere safe, such as your school’s shared drive. Next time, open this page and choose Load a saved file to pick up where you left off. You don’t need to open the file itself.'),
+      h('div', { class: 'keep-actions' },
+        h('button', { type: 'button', class: 'btn primary', onclick: downloadAssessment }, 'Download save file')),
+      h('h2', { class: 'sub' }, 'Finished?'),
+      h('p', null, 'Print the completed form or save it as a PDF, then sign it and keep it as evidence of your decision.'),
+      h('div', { class: 'keep-actions' },
+        h('button', { type: 'button', class: 'btn', onclick: printReport }, 'Print / Save as PDF')),
+      h('p', { class: 'disclaimer' }, disclaimer(state.profile.tool.trim())),
+      nextback(idx));
+  }
+
+  // ---------- Printed form ----------
+  function reportArea(a) {
+    return h('div', null,
+      h('h3', null, a.title),
+      h('table', { class: 'r-grid r-check' },
+        h('thead', null, h('tr', null, [T.standardArea, T.supplier, T.school, T.status].map(t => h('th', { scope: 'col' }, t)))),
+        h('tbody', null, a.standards.map(s => {
+          const ans = state.standards[s.id] || {};
+          return h('tr', null,
+            h('td', null,
+              s.pupilsOnly ? h('p', { class: 'r-pupil' }, FORM.pupilsOnlyLabel) : null,
+              h('p', { class: 'r-qtext' }, s.num + '. ' + s.title),
+              h('ul', null, s.criteria.map(c => h('li', null, c)))),
+            h('td', null, h('p', { class: 'r-prompt' }, s.supplier), ans.supplier ? h('p', { class: 'r-note' }, ans.supplier) : null),
+            h('td', null, h('p', { class: 'r-prompt' }, s.school), ans.school ? h('p', { class: 'r-note' }, ans.school) : null),
+            h('td', { class: 'r-status' }, STATUSES.map(x => h('div', null, box(ans.status === x.value) + ' ' + x.label))));
+        }))));
+  }
+
+  function reportRisks() {
+    const risks = state.risks.filter(riskHasContent);
+    return h('table', { class: 'r-grid r-risks' },
+      h('thead', null, h('tr', null, [T.hazard, T.inherent, T.mitigation, T.residual, T.owner].map(t => h('th', { scope: 'col' }, t)))),
+      h('tbody', null, risks.length ? risks.map(r => h('tr', null,
+        h('td', { class: 'r-note' }, r.hazard),
+        h('td', null, ratingText(r.inherentL, r.inherentI)),
+        h('td', { class: 'r-note' }, r.mitigation),
+        h('td', null, ratingText(r.residualL, r.residualI)),
+        h('td', { class: 'r-note' }, r.owner))) : h('tr', null, h('td', { colspan: '5' }, 'No risks logged.'))));
+  }
+
+  function reportSignoff() {
+    const so = state.signoff;
+    const line = (label, value) => h('p', { class: 'r-line' },
+      h('strong', null, /\?$/.test(label) ? label + ' ' : label + ': '),
+      value ? h('span', { class: 'r-note' }, value) : h('span', { class: 'r-blank' }));
+    return [
+      h('h2', null, SECTIONS.signoff.title),
+      h('p', null, FORM.signOffIntro),
+      h('table', { class: 'r-grid r-narrow' },
+        h('thead', null, h('tr', null, h('td', null), h('th', { scope: 'col' }, T.reviewed))),
+        h('tbody', null, REVIEWERS.map(r => h('tr', null, h('th', { scope: 'row' }, r.label), h('td', null, box(so.reviewers.includes(r.id))))))),
+      h('p', null, FORM.disagreeNote),
+      h('table', { class: 'r-grid r-narrow' },
+        h('tbody', null, REGISTERS.map(r => h('tr', null, h('th', { scope: 'row' }, r.label), h('td', null, r.tick + ' ' + box(so.registers.includes(r.id))))))),
+      h('div', { class: 'r-approval' },
+        line(T.approver, so.approver),
+        line(T.signature, ''),
+        line(T.approvalDate, fmtDate(so.date)),
+        h('p', { class: 'r-line' }, h('strong', null, T.decision + ':')),
+        DECISIONS.map(d => h('p', { class: 'r-line' }, box(so.decision === d.id) + ' ' + d.label)),
+        line(T.whoCanUse, so.whoCanUse),
+        line(T.reviewDate, fmtDate(so.reviewDate))),
+    ];
+  }
+
+  function buildReport() {
+    const r = $('#report');
+    r.replaceChildren();
+    if (!state) { r.append(h('p', null, 'No assessment is open. Start or load one, then print.')); return; }
+    const p = state.profile;
+    const tool = p.tool.trim();
+    const row = (k, v) => h('tr', null, h('th', { scope: 'row' }, k), h('td', null, v));
+    const removed = removedAnswers(state);
+    r.append(h('div', null,
+      h('div', { class: 'r-head' }, h('img', { src: LOGO_SRC, alt: 'LGfL', class: 'r-logo' }),
+        h('div', null, h('p', { class: 'r-kicker' }, APP_NAME), h('h1', null, tool || 'Untitled tool'))),
+      h('p', { class: 'r-intro' }, richText(FORM.intro)),
+      h('p', { class: 'r-intro' }, FORM.tagline),
+      h('h2', null, SECTIONS.profile.title),
+      h('table', { class: 'r-details' }, h('tbody', null,
+        row(T.tool, tool),
+        row(T.assessedBy, p.assessedBy),
+        row(T.date, fmtDate(p.date)),
+        row(T.demographic, h('span', { class: 'r-note' }, p.demographic)),
+        row(T.useCases, USE_CASES.map(u => h('div', null, box(p.useCases.includes(u.id)) + ' ' + u.label +
+          (u.other ? ' (' + T.otherSpecify + ': ' + (p.useCases.includes(u.id) && p.otherUse.trim() ? p.otherUse.trim() : '______') + ')' : '')))))),
+      h('section', { class: 'r-section' },
+        h('h2', null, SECTIONS.checklist.title),
+        h('p', null, FORM.checklistIntro),
+        AREAS.map(reportArea)),
+      h('section', { class: 'r-section' },
+        h('h2', null, SECTIONS.risks.title),
+        h('p', null, FORM.riskIntro),
+        matrixTable(),
+        reportRisks()),
+      h('section', { class: 'r-section' }, reportSignoff()),
+      removed.length ? h('section', { class: 'r-section' },
+        h('h2', null, 'Answers for standards no longer in the checklist'),
+        removed.map(a => h('div', { class: 'r-removed' },
+          h('p', { class: 'r-qtext' }, a.title || a.id),
+          h('p', null, h('strong', null, T.status + ': '), STATUS_LABEL[a.status] || 'None'),
+          a.supplier ? h('p', { class: 'r-note' }, h('strong', null, T.supplier + ': '), a.supplier) : null,
+          a.school ? h('p', { class: 'r-note' }, h('strong', null, T.school + ': '), a.school) : null))) : null,
+      h('p', { class: 'r-disclaimer' }, disclaimer(tool) + ' Printed ' + fmtDateTime(new Date().toISOString()) + '.')));
+  }
+
+  function fillFooter() {
+    const pilot = $('#pilot');
+    if (SETTINGS.pilotNotice) {
+      pilot.append(h('mark', null, SETTINGS.pilotNotice));
+      if (SETTINGS.feedbackEmail) pilot.append('Feedback welcome: ', h('a', { href: 'mailto:' + SETTINGS.feedbackEmail }, SETTINGS.feedbackEmail));
+    } else {
+      pilot.hidden = true;
+    }
+    const meta = $('#foot-meta');
+    meta.append('LGfL ' + new Date().getFullYear() + '©');
+    const privacy = safeUrl(SETTINGS.privacyNoticeUrl);
+    if (privacy) meta.append(' · ', h('a', { href: privacy, target: '_blank', rel: 'noopener noreferrer' }, 'Privacy notice'));
+    if (GA_ID) meta.append(' · ', h('button', { type: 'button', class: 'btn-link', onclick: showBanner }, 'Cookie settings'));
+  }
+
+  function renderProblems(list) {
+    $('#main').replaceChildren(h('div', { class: 'intro' },
+      h('h1', { class: 'section-title' }, 'The form content needs fixing'),
+      h('p', null, 'The form can’t start until these are fixed in the FORM CONTENT at the top of the file:'),
+      h('ul', null, list.map(p => h('li', null, p)))));
+  }
+
+  // ---------- Start up ----------
+  function init() {
+    fillFooter();
+    const problems = checkForm();
+    if (problems.length) { renderProblems(problems); return; }
+    if (GA_ID) {
+      buildBanner();
+      const c = consent();
+      if (c === 'granted') loadGA(); else if (!c) showBanner();
+    }
+    $('#btn-download').addEventListener('click', downloadAssessment);
+    $('#btn-print').addEventListener('click', printReport);
+    fileInput.addEventListener('change', onFileChosen);
+    window.addEventListener('hashchange', render);
+    window.addEventListener('beforeprint', () => { buildReport(); if (state) track('report_print', {}); });
+    window.addEventListener('pagehide', () => { if (saveTimer) persist(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && saveTimer) persist(); });
+    // A refresh or bookmark into the middle of an assessment reopens it without counting a new start.
+    if (validHash(location.hash.slice(1))) {
+      const saved = loadSaved();
+      if (saved) { state = saved.state; flash = changeText(saved.notes) || null; }
+    }
+    render();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
